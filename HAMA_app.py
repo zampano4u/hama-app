@@ -1,192 +1,80 @@
+# 실행 명령어: streamlit run ham_a_app.py
+# 필요한 라이브러리 설치: pip install streamlit
+
 import streamlit as st
 
-st.set_page_config(page_title="HAM-A 불안 평가", layout="centered")
-
-st.title("Hamilton Anxiety Rating Scale, HAM-A")
-st.write("불안 수준을 평가하기 위한 해밀턴 불안 척도입니다. 각 문항에 가장 적절한 항목을 선택해주세요.")
-
-questions = [
-    {
-        "id": 1,
-        "title": "불안한 기분",
-        "options": [
-            "없다 (0)",
-            "경도 – 걱정, 불안 (1)",
-            "중등도 – 긴장감, 공포 (2)",
-            "고도 – 일상생활 방해 (3)",
-            "매우 고도 – 거의 기능 상실 (4)"
-        ]
-    },
-    {
-        "id": 2,
-        "title": "긴장감",
-        "options": [
-            "없다 (0)",
-            "경도 – 예민함, 안절부절 (1)",
-            "중등도 – 가벼운 떨림 (2)",
-            "고도 – 몸이 뻣뻣함, 땀, 얼굴 붉어짐 (3)",
-            "매우 고도 – 심각한 떨림, 혼란 (4)"
-        ]
-    },
-    {
-        "id": 3,
-        "title": "공포",
-        "options": [
-            "없다 (0)",
-            "경도 – 가벼운 공포 (1)",
-            "중등도 – 특정 대상 공포 (2)",
-            "고도 – 사회적 공포 포함 (3)",
-            "매우 고도 – 지속적 공포 및 회피 (4)"
-        ]
-    },
-    {
-        "id": 4,
-        "title": "불면증",
-        "options": [
-            "없다 (0)",
-            "경도 – 잠들기 어려움 (1)",
-            "중등도 – 자주 깸 (2)",
-            "고도 – 잠 거의 못 잠 (3)",
-            "매우 고도 – 전혀 잠들지 못함 (4)"
-        ]
-    },
-    {
-        "id": 5,
-        "title": "지적 기능 저하",
-        "options": [
-            "없다 (0)",
-            "경도 – 집중력 저하 (1)",
-            "중등도 – 기억력 감소 (2)",
-            "고도 – 사고 흐름 방해 (3)",
-            "매우 고도 – 사고 정지 수준 (4)"
-        ]
-    },
-    {
-        "id": 6,
-        "title": "우울한 기분",
-        "options": [
-            "없다 (0)",
-            "경도 – 슬픔, 낙담 (1)",
-            "중등도 – 울고 싶음 (2)",
-            "고도 – 자책, 무가치감 (3)",
-            "매우 고도 – 자살 사고 동반 (4)"
-        ]
-    },
-    {
-        "id": 7,
-        "title": "신체적 증상 (근육)",
-        "options": [
-            "없다 (0)",
-            "경도 – 경미한 통증, 긴장감 (1)",
-            "중등도 – 어깨 결림, 목 뻣뻣 (2)",
-            "고도 – 경련, 움직임 제한 (3)",
-            "매우 고도 – 일상 기능 저해 (4)"
-        ]
-    },
-    {
-        "id": 8,
-        "title": "신체적 증상 (감각)",
-        "options": [
-            "없다 (0)",
-            "경도 – 저림, 감각 둔화 (1)",
-            "중등도 – 따끔거림, 귀울림 (2)",
-            "고도 – 어지러움, 시야흐림 (3)",
-            "매우 고도 – 방향감각 상실 (4)"
-        ]
-    },
-    {
-        "id": 9,
-        "title": "심혈관계 증상",
-        "options": [
-            "없다 (0)",
-            "경도 – 두근거림 (1)",
-            "중등도 – 가슴 압박감, 통증 (2)",
-            "고도 – 호흡 곤란, 빈맥 (3)",
-            "매우 고도 – 실신, 긴급 대응 필요 (4)"
-        ]
-    },
-    {
-        "id": 10,
-        "title": "호흡기계 증상",
-        "options": [
-            "없다 (0)",
-            "경도 – 숨참 느낌 (1)",
-            "중등도 – 과호흡 (2)",
-            "고도 – 질식 공포 (3)",
-            "매우 고도 – 호흡 거의 불가 (4)"
-        ]
-    },
-    {
-        "id": 11,
-        "title": "위장관계 증상",
-        "options": [
-            "없다 (0)",
-            "경도 – 입마름, 속 불편함 (1)",
-            "중등도 – 복통, 설사, 오심 (2)",
-            "고도 – 구토, 소화 불가 (3)",
-            "매우 고도 – 섭취 불가능 (4)"
-        ]
-    },
-    {
-        "id": 12,
-        "title": "비뇨생식기계 증상",
-        "options": [
-            "없다 (0)",
-            "경도 – 빈뇨, 요의 증가 (1)",
-            "중등도 – 성욕 감소 (2)",
-            "고도 – 발기부전/월경 이상 (3)",
-            "매우 고도 – 생식기 기능 소실 (4)"
-        ]
-    },
-    {
-        "id": 13,
-        "title": "자율신경계 증상",
-        "options": [
-            "없다 (0)",
-            "경도 – 땀, 창백함 (1)",
-            "중등도 – 어지러움, 열감 (2)",
-            "고도 – 혈압 변동 (3)",
-            "매우 고도 – 쇼크 증상 (4)"
-        ]
-    },
-    {
-        "id": 14,
-        "title": "면담 시 행동",
-        "options": [
-            "없다 (0)",
-            "경도 – 손 움직임 증가 (1)",
-            "중등도 – 안절부절, 불편해함 (2)",
-            "고도 – 비언어적 초조 (3)",
-            "매우 고도 – 통제 불가능한 불안행동 (4)"
-        ]
-    },
+# HAM-A 항목 정의
+ham_a_items = [
+    {"id": 1, "question_ko": "불안한 기분", "question_en": "Anxious mood", "description_ko": "걱정, 최악의 상황을 예상함, 공포감, 짜증", "description_en": "Worries, anticipation of the worst, fearful anticipation, irritability."},
+    {"id": 2, "question_ko": "긴장감", "question_en": "Tension", "description_ko": "긴장된 느낌, 피로감, 과민한 놀람 반응, 쉽게 눈물이 남, 떨림, 안절부절 못함, 이완 불가", "description_en": "Feelings of tension, fatigability, startle response, moved to tears easily, trembling, feelings of restlessness, inability to relax."},
+    {"id": 3, "question_ko": "공포", "question_en": "Fears", "description_ko": "어둠, 낯선 사람, 혼자 있음, 동물, 교통, 군중 등에 대한 공포", "description_en": "Of dark, of strangers, of being left alone, of animals, of traffic, of crowds."},
+    {"id": 4, "question_ko": "불면증", "question_en": "Insomnia", "description_ko": "잠들기 어려움, 자주 깨는 수면, 피로를 동반한 불충분한 수면, 악몽, 야경증", "description_en": "Difficulty in falling asleep, broken sleep, unsatisfying sleep and fatigue on waking, dreams, nightmares, night terrors."},
+    {"id": 5, "question_ko": "지적 기능 저하", "question_en": "Intellectual", "description_ko": "집중력 저하, 기억력 저하", "description_en": "Difficulty in concentration, poor memory."},
+    {"id": 6, "question_ko": "우울한 기분", "question_en": "Depressed mood", "description_ko": "흥미 상실, 취미 생활의 즐거움 부족, 우울감, 조기 각성, 하루 중 기분 변동", "description_en": "Loss of interest, lack of pleasure in hobbies, depression, early waking, diurnal swing."},
+    {"id": 7, "question_ko": "신체적 증상 (근육)", "question_en": "Somatic (muscular)", "description_ko": "통증, 경련, 뻣뻣함, 근간대성 경련, 이갈이, 불안정한 목소리, 근긴장 증가", "description_en": "Pains and aches, twitching, stiffness, myoclonic jerks, grinding of teeth, unsteady voice, increased muscular tone."},
+    {"id": 8, "question_ko": "신체적 증상 (감각)", "question_en": "Somatic (sensory)", "description_ko": "이명, 시야 흐림, 냉감 및 온감, 허약감, 찌릿한 감각", "description_en": "Tinnitus, blurring of vision, hot and cold flushes, feelings of weakness, pricking sensation."},
+    {"id": 9, "question_ko": "심혈관계 증상", "question_en": "Cardiovascular symptoms", "description_ko": "심계항진, 가슴 통증, 혈관 박동, 실신 느낌, 심장박동 누락 느낌", "description_en": "Tachycardia, palpitations, pain in chest, throbbing of vessels, fainting feelings, missing beat."},
+    {"id": 10, "question_ko": "호흡기계 증상", "question_en": "Respiratory symptoms", "description_ko": "흉부 압박, 질식감, 한숨, 호흡곤란", "description_en": "Pressure or constriction in chest, choking feelings, sighing, dyspnea."},
+    {"id": 11, "question_ko": "위장관계 증상", "question_en": "Gastrointestinal symptoms", "description_ko": "삼킴 곤란, 가스, 복통, 작열감, 복부 팽만감, 메스꺼움, 구토, 장운동, 체중 감소, 변비", "description_en": "Difficulty in swallowing, wind abdominal pain, burning sensations, abdominal fullness, nausea, vomiting, borborygmi, looseness of bowels, loss of weight, constipation."},
+    {"id": 12, "question_ko": "비뇨생식기계 증상", "question_en": "Genitourinary symptoms", "description_ko": "배뇨 빈도 증가, 절박뇨, 무월경, 월경과다, 성욕 감퇴, 조루, 발기부전", "description_en": "Frequency of micturition, urgency of micturition, amenorrhea, menorrhagia, development of frigidity, premature ejaculation, loss of libido, impotence."},
+    {"id": 13, "question_ko": "자율신경계 증상", "question_en": "Autonomic symptoms", "description_ko": "구강건조, 안면홍조, 창백, 다한증, 어지럼증, 긴장성 두통, 털섬모기립", "description_en": "Dry mouth, flushing, pallor, tendency to sweat, giddiness, tension headache, raising of hair."},
+    {"id": 14, "question_ko": "면담 시 행동", "question_en": "Behavior at interview", "description_ko": "안절부절못함, 떨림, 얼굴 긴장, 한숨, 빠른 호흡, 창백, 연하 행동 등", "description_en": "Fidgeting, restlessness or pacing, tremor of hands, furrowed brow, strained face, sighing or rapid respiration, facial pallor, swallowing, etc."}
 ]
 
-responses = []
-for q in questions:
-    selected = st.selectbox(f"{q['id']}. {q['title']}", q["options"], key=q["id"])
-    score = int(selected.split("(")[-1].replace(")", ""))
-    responses.append((q["id"], q["title"], selected, score))
+ham_a_choices = [
+    {"score": 0, "label_en": "Not present", "label_ko": "없음"},
+    {"score": 1, "label_en": "Mild", "label_ko": "경미함"},
+    {"score": 2, "label_en": "Moderate", "label_ko": "중간 정도"},
+    {"score": 3, "label_en": "Severe", "label_ko": "심함"},
+    {"score": 4, "label_en": "Very severe", "label_ko": "매우 심함"}
+]
 
-# 점수 계산
-total_score = sum(score for (_, _, _, score) in responses)
+st.set_page_config(page_title="HAM-A 평가", layout="centered")
 
-# 임상적 해석
-if total_score <= 7:
-    interpretation = "불안 거의 없음"
-elif 8 <= total_score <= 14:
-    interpretation = "경도 불안"
-elif 15 <= total_score <= 23:
-    interpretation = "중등도 불안"
-elif 24 <= total_score <= 30:
-    interpretation = "심한 불안"
-else:
-    interpretation = "매우 심한 불안"
+if "answers" not in st.session_state:
+    st.session_state.answers = [None] * len(ham_a_items)
 
-# 출력
-if st.button("결과 보기"):
-    output = "**Hamilton Anxiety Rating Scale, HAM-A**\n\n"
-    for qid, title, text, score in responses:
-        output += f"{qid}. {title}: {text}\n"
-    output += f"\n총점: {total_score}\n임상적 해석: {interpretation}"
-    st.code(output)
+st.title("Hamilton Anxiety Rating Scale (HAM-A)")
+
+with st.form("ham_a_form"):
+    for i, item in enumerate(ham_a_items):
+        options = [f"{c['score']} - {c['label_ko']}" for c in ham_a_choices]
+        default_score = st.session_state.answers[i] if st.session_state.answers[i] is not None else 0
+        default_index = next((idx for idx, c in enumerate(ham_a_choices) if c["score"] == default_score), 0)
+        selected = st.selectbox(f"{item['id']}. {item['question_ko']} - {item['description_ko']}", options, index=default_index, key=f"q{i}")
+        st.session_state.answers[i] = int(selected.split(" - ")[0])
+    submitted = st.form_submit_button("평가 완료")
+
+if submitted:
+    st.subheader("Evaluation Result")
+
+    total_score = sum(st.session_state.answers)
+
+    # 임상적 해석 기준
+    # 0–17점: Mild anxiety
+    # 18–24점: Mild to Moderate anxiety
+    # 25–30점: Moderate to Severe anxiety
+    # 31점 이상: Very severe anxiety
+
+    interpretation = ""
+    if total_score < 18:
+        interpretation = "Mild anxiety"
+    elif 18 <= total_score <= 24:
+        interpretation = "Mild to Moderate anxiety"
+    elif 25 <= total_score <= 30:
+        interpretation = "Moderate to Severe anxiety"
+    else:
+        interpretation = "Very severe anxiety"
+
+    result_lines = ["Hamilton Anxiety Rating Scale (HAM-A)\n"]
+    for i, item in enumerate(ham_a_items):
+        choice_score = st.session_state.answers[i]
+        choice_label = [c["label_en"] for c in ham_a_choices if c["score"] == choice_score][0]
+        line = f"{item['id']}. {item['question_en']} ({item['description_en']}): ({choice_score}) {choice_label}"
+        result_lines.append(line)
+
+    result_lines.append("")
+    result_lines.append(f"Total Score: {total_score}")
+    result_lines.append(f"Clinical Interpretation: {interpretation}")
+
+    st.code("\n".join(result_lines))
